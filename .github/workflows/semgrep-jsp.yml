@@ -39,12 +39,14 @@ jobs:
 
       - name: Commit converted files
         run: |
+          rm -rf apache-tomcat-* apache-ant-* jstl-*.jar *.tar.gz
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git checkout -B jsp-converted
           git add converted/
           git commit -m "JSP to Java converted files" || echo "No changes"
           git push origin jsp-converted --force
+          echo "JSP_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Install Semgrep
         run: pip install semgrep
@@ -54,3 +56,4 @@ jobs:
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
           SEMGREP_BRANCH: jsp-converted
+          SEMGREP_COMMIT: ${{ env.JSP_COMMIT }}
