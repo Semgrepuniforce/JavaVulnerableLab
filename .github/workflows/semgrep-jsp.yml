@@ -11,22 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Tomcat and Ant
+      - name: Download Tomcat, Ant, JSTL
         run: |
           wget -q https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98.tar.gz
           tar xzf apache-tomcat-9.0.98.tar.gz
           wget -q https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.15-bin.tar.gz
           tar xzf apache-ant-1.10.15-bin.tar.gz
+          wget -q https://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar
 
       - name: Convert JSP to Java
         run: |
           mkdir -p converted
-          java -cp "apache-tomcat-9.0.98/lib/*:apache-ant-1.10.15/lib/ant.jar" \
+          java -cp "apache-tomcat-9.0.98/lib/*:apache-tomcat-9.0.98/bin/tomcat-juli.jar:apache-ant-1.10.15/lib/ant.jar:jstl-1.2.jar" \
             org.apache.jasper.JspC \
             -uriroot ./src/main/webapp \
-            -d ./converted || true
-          echo "=== 轉譯結果 ==="
-          find converted -name "*.java"
+            -d ./converted
           echo "=== 轉譯檔案數量 ==="
           find converted -name "*.java" | wc -l
 
