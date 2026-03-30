@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Download Tomcat, Ant, JSTL
         run: |
@@ -28,6 +30,18 @@ jobs:
             -d ./converted
           echo "=== 轉譯檔案數量 ==="
           find converted -name "*.java" | wc -l
+
+      - name: Add JSP line mapping
+        run: python3 jsp_line_mapper.py ./src/main/webapp ./converted
+
+      - name: Commit converted files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git checkout -B jsp-converted
+          git add converted/
+          git commit -m "JSP to Java converted files" || echo "No changes"
+          git push origin jsp-converted --force
 
       - name: Install Semgrep
         run: pip install semgrep
