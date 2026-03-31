@@ -43,6 +43,7 @@ jobs:
           git add converted/
           git commit -m "Update JSP converted files [skip ci]" || echo "No changes"
           git push origin master
+          echo "NEW_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Install Semgrep
         run: pip install semgrep
@@ -51,3 +52,4 @@ jobs:
         run: semgrep ci
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+          GITHUB_SHA: ${{ env.NEW_SHA }}
