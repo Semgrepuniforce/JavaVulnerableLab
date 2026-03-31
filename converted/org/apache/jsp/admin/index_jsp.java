@@ -25,8 +25,8 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   static {
     _jspx_dependants = new java.util.HashMap<java.lang.String,java.lang.Long>(2);
-    _jspx_dependants.put("/footer.jsp", Long.valueOf(1774938946646L));
-    _jspx_dependants.put("/header.jsp", Long.valueOf(1774938946646L));
+    _jspx_dependants.put("/footer.jsp", Long.valueOf(1774941668803L));
+    _jspx_dependants.put("/header.jsp", Long.valueOf(1774941668803L));
   }  // [JSP] admin/index.jsp:6
 
   private static final java.util.Set<java.lang.String> _jspx_imports_packages;
