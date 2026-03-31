@@ -14,10 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
           fetch-depth: 0
 
-      - name: Pull latest master
+      - name: Pull latest
         run: git pull origin master
 
       - name: Download Tomcat, Ant, JSTL
@@ -42,14 +41,15 @@ jobs:
       - name: Add JSP line mapping
         run: python3 jsp_line_mapper.py ./src/main/webapp ./converted
 
-      - name: Commit converted files to master
+      - name: Commit converted files to branch
         run: |
           rm -rf apache-tomcat-* apache-ant-* jstl-*.jar *.tar.gz
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git checkout -B jsp-scan
           git add converted/
-          git diff --staged --quiet && echo "No changes" || git commit -m "Update JSP converted files [skip ci]"
-          git push origin master
+          git diff --staged --quiet && echo "No changes" || git commit -m "Update JSP converted files"
+          git push origin jsp-scan --force
           echo "NEW_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Install Semgrep
@@ -60,3 +60,4 @@ jobs:
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
           GITHUB_SHA: ${{ env.NEW_SHA }}
+          GITHUB_REF: refs/heads/jsp-scan
