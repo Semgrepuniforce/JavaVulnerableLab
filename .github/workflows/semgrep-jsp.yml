@@ -61,3 +61,4 @@ jobs:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
           GITHUB_SHA: ${{ env.NEW_SHA }}
           GITHUB_REF: refs/heads/jsp-scan
+          SEMGREP_BRANCH: jsp-scan
