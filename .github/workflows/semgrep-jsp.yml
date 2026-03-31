@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Pull latest master
+        run: git pull origin master
 
       - name: Download Tomcat, Ant, JSTL
         run: |
@@ -24,6 +30,7 @@ jobs:
 
       - name: Convert JSP to Java
         run: |
+          rm -rf converted
           mkdir -p converted
           java -cp "apache-tomcat-9.0.98/lib/*:apache-tomcat-9.0.98/bin/tomcat-juli.jar:apache-ant-1.10.15/lib/ant.jar:jstl-1.2.jar" \
             org.apache.jasper.JspC \
@@ -41,7 +48,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add converted/
-          git commit -m "Update JSP converted files [skip ci]" || echo "No changes"
+          git diff --staged --quiet && echo "No changes" || git commit -m "Update JSP converted files [skip ci]"
           git push origin master
           echo "NEW_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
