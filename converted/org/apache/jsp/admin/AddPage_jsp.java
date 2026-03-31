@@ -25,8 +25,8 @@ public final class AddPage_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   static {
     _jspx_dependants = new java.util.HashMap<java.lang.String,java.lang.Long>(2);
-    _jspx_dependants.put("/footer.jsp", Long.valueOf(1774938288316L));
-    _jspx_dependants.put("/header.jsp", Long.valueOf(1774938288316L));
+    _jspx_dependants.put("/footer.jsp", Long.valueOf(1774938946646L));
+    _jspx_dependants.put("/header.jsp", Long.valueOf(1774938946646L));
   }  // [JSP] admin/AddPage.jsp:15
 
   private static final java.util.Set<java.lang.String> _jspx_imports_packages;
